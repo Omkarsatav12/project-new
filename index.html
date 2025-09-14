@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Yatra - Smart Tourist Safety System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>Safe Yatra</span>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section id="welcome-section" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Safe Yatra</h1>
+                <h2>Smart Tourist Safety Monitoring System</h2>
+                <p>Your trusted companion for safe travel with AI-powered monitoring, real-time alerts, and emergency response.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn--primary btn--lg" id="register-btn">
+                        <i class="fas fa-user-plus"></i>
+                        Register Now
+                    </button>
+                    <button class="btn btn--secondary btn--lg" id="authority-login-btn">
+                        <i class="fas fa-shield-alt"></i>
+                        Authority Login
+                    </button>
+                </div>
+            </div>
+            <div class="hero-features">
+                <div class="feature-card">
+                    <i class="fas fa-location-dot"></i>
+                    <h3>Real-time Tracking</h3>
+                    <p>GPS monitoring with geo-fencing</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bell"></i>
+                    <h3>Smart Alerts</h3>
+                    <p>AI-powered safety notifications</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Emergency Response</h3>
+                    <p>Instant connection to authorities</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Modal -->
+    <div class="modal hidden" id="registration-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tourist Registration</h2>
+                <button class="modal-close" id="close-registration">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <div class="step active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">Personal Info</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">Travel Details</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Health Info</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-circle">4</div>
+                        <div class="step-label">Verification</div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Personal Information -->
+                <div class="registration-step active" id="step-1">
+                    <h3>Personal Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" id="full-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nationality *</label>
+                            <select class="form-control" id="nationality" required>
+                                <option value="">Select Country</option>
+                                <option value="IN">India</option>
+                                <option value="US">United States</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="CN">China</option>
+                                <option value="JP">Japan</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="AU">Australia</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Travel Details -->
+                <div class="registration-step" id="step-2">
+                    <h3>Travel Details</h3>
+                    
+                    <!-- Location Permission -->
+                    <div class="location-permission">
+                        <div class="permission-card">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h4>Location Access</h4>
+                            <p>We need your location to provide real-time safety monitoring and nearby facility information.</p>
+                            <div class="permission-buttons">
+                                <button class="btn btn--primary" id="allow-location">
+                                    <i class="fas fa-check"></i>
+                                    Allow Location Access
+                                </button>
+                                <button class="btn btn--outline" id="deny-location">
+                                    <i class="fas fa-times"></i>
+                                    Manual Region Entry
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manual Region Input (shown if location denied) -->
+                    <div class="region-input hidden" id="region-input">
+                        <div class="form-group">
+                            <label class="form-label">Select Your Travel Region *</label>
+                            <select class="form-control" id="travel-region">
+                                <option value="">Choose Region</option>
+                                <option value="Delhi NCR">Delhi NCR</option>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Kolkata">Kolkata</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Pune">Pune</option>
+                                <option value="Ahmedabad">Ahmedabad</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Region Safety Info -->
+                        <div class="region-info hidden" id="region-safety-info">
+                            <div class="safety-cards">
+                                <div class="safety-card weather">
+                                    <i class="fas fa-cloud-sun"></i>
+                                    <h4>Weather Forecast</h4>
+                                    <div id="weather-info">Loading...</div>
+                                </div>
+                                <div class="safety-card alerts">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <h4>Safety Alerts</h4>
+                                    <div id="safety-alerts">Loading...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Travel Purpose</label>
+                            <select class="form-control" id="travel-purpose">
+                                <option value="tourism">Tourism</option>
+                                <option value="business">Business</option>
+                                <option value="education">Education</option>
+                                <option value="medical">Medical</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Duration of Stay</label>
+                            <input type="text" class="form-control" id="stay-duration" placeholder="e.g., 5 days">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Health Information -->
+                <div class="registration-step" id="step-3">
+                    <h3>Health Information</h3>
+                    <p class="step-description">This information helps us provide better emergency response and medical assistance.</p>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Blood Group *</label>
+                            <select class="form-control" id="blood-group" required>
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Emergency Contact Name</label>
+                            <input type="text" class="form-control" id="emergency-contact-name" placeholder="Full name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Emergency Contact Phone</label>
+                        <input type="tel" class="form-control" id="emergency-contact-phone" placeholder="+91 9876543210">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Medical Conditions</label>
+                        <textarea class="form-control" id="medical-conditions" rows="3" placeholder="List any chronic conditions, disabilities, or ongoing health issues..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Allergies</label>
+                        <textarea class="form-control" id="allergies" rows="2" placeholder="Food allergies, drug allergies, environmental allergies..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Current Medications</label>
+                        <textarea class="form-control" id="medications" rows="2" placeholder="List current medications and dosages..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 4: Verification -->
+                <div class="registration-step" id="step-4">
+                    <h3>Identity Verification</h3>
+                    <div class="form-group">
+                        <label class="form-label">Government ID Type *</label>
+                        <select class="form-control" id="id-type" required>
+                            <option value="">Select ID Type</option>
+                            <option value="passport">Passport</option>
+                            <option value="aadhar">Aadhar Card</option>
+                            <option value="driving-license">Driving License</option>
+                            <option value="voter-id">Voter ID</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ID Number *</label>
+                        <input type="text" class="form-control" id="id-number" required>
+                    </div>
+                    <div class="verification-status">
+                        <div class="status-card">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Identity verification will be processed after registration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="prev-step" style="display: none;">Previous</button>
+                <button class="btn btn--primary" id="next-step">Next</button>
+                <button class="btn btn--primary hidden" id="complete-registration">Complete Registration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Safety Check-in Modal -->
+    <div class="modal hidden" id="safety-checkin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Safety Check-in</h2>
+                <div class="countdown-timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="countdown">5:00</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="checkin-content">
+                    <i class="fas fa-shield-alt checkin-icon"></i>
+                    <h3>Are you safe?</h3>
+                    <p>We're checking on your wellbeing. Please confirm that you're safe and secure.</p>
+                    <div class="checkin-buttons">
+                        <button class="btn btn--primary btn--lg" id="confirm-safe">
+                            <i class="fas fa-check"></i>
+                            I'm Safe
+                        </button>
+                        <button class="btn btn--secondary" id="need-help">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            I Need Help
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tourist Dashboard -->
+    <section id="tourist-dashboard" class="dashboard hidden">
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="dashboard-nav">
+                    <h1>Tourist Dashboard</h1>
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-details">
+                            <span class="user-name" id="dashboard-user-name">Tourist</span>
+                            <span class="user-id" id="dashboard-user-id">ID: TOUR-0000</span>
+                        </div>
+                        <button class="btn btn--outline btn--sm" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Tabs -->
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="overview">
+                        <i class="fas fa-home"></i>
+                        Overview
+                    </button>
+                    <button class="tab-btn" data-tab="facilities">
+                        <i class="fas fa-hospital"></i>
+                        Nearby Facilities
+                    </button>
+                    <button class="tab-btn" data-tab="police-chat">
+                        <i class="fas fa-comments"></i>
+                        Police Chat
+                    </button>
+                    <button class="tab-btn" data-tab="safety-news">
+                        <i class="fas fa-newspaper"></i>
+                        Safety News
+                    </button>
+                    <button class="tab-btn" data-tab="emergency">
+                        <i class="fas fa-phone-alt"></i>
+                        Emergency
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-content container">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview-tab">
+                <div class="overview-grid">
+                    <div class="status-card">
+                        <div class="status-header">
+                            <h3>Safety Status</h3>
+                            <div class="status-indicator safe">
+                                <i class="fas fa-check-circle"></i>
+                                <span>SAFE</span>
+                            </div>
+                        </div>
+                        <div class="status-details">
+                            <div class="status-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Location: Delhi NCR</span>
+                            </div>
+                            <div class="status-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Last Check-in: 2 mins ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-contacts">
+                        <h3>Quick Emergency Contacts</h3>
+                        <div class="contact-grid">
+                            <a href="tel:100" class="emergency-btn police">
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <strong>Police</strong>
+                                    <span>100</span>
+                                </div>
+                            </a>
+                            <a href="tel:102" class="emergency-btn ambulance">
+                                <i class="fas fa-ambulance"></i>
+                                <div>
+                                    <strong>Ambulance</strong>
+                                    <span>102</span>
+                                </div>
+                            </a>
+                            <a href="tel:101" class="emergency-btn fire">
+                                <i class="fas fa-fire-extinguisher"></i>
+                                <div>
+                                    <strong>Fire</strong>
+                                    <span>101</span>
+                                </div>
+                            </a>
+                            <a href="tel:1363" class="emergency-btn tourist">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <strong>Tourist Helpline</strong>
+                                    <span>1363</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-container">
+                    <h3>Your Location & Safety Zone</h3>
+                    <div id="tourist-map" class="map-display">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <p>Interactive map showing your location and nearby safety zones</p>
+                            <div class="current-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Current Location: Connaught Place, Delhi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nearby Facilities Tab -->
+            <div class="tab-content" id="facilities-tab">
+                <div class="facilities-header">
+                    <h3>Nearby Facilities</h3>
+                    <p>Essential services and safe places near your location</p>
+                </div>
+
+                <div class="facilities-section">
+                    <h4><i class="fas fa-shield-alt"></i> Police Stations</h4>
+                    <div class="facility-grid" id="police-facilities">
+                        <!-- Police stations will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="facilities-section">
+                    <h4><i class="fas fa-hospital"></i> Hospitals</h4>
+                    <div class="facility-grid" id="hospital-facilities">
+                        <!-- Hospitals will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="facilities-section">
+                    <h4><i class="fas fa-home"></i> Safe Places</h4>
+                    <div class="facility-grid" id="safe-facilities">
+                        <!-- Safe places will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Police Chat Tab -->
+            <div class="tab-content" id="police-chat-tab">
+                <div class="chat-container">
+                    <div class="chat-sidebar">
+                        <h3>Police Stations</h3>
+                        <div class="station-list" id="station-list">
+                            <!-- Police stations list will be populated -->
+                        </div>
+                        
+                        <div class="quick-messages">
+                            <h4>Quick Messages</h4>
+                            <div class="quick-message-buttons" id="quick-messages">
+                                <!-- Quick message buttons will be populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-main">
+                        <div class="chat-header" id="chat-header">
+                            <div class="chat-info">
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <strong>Select a police station</strong>
+                                    <span>Choose from the list to start chatting</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="no-chat-selected">
+                                <i class="fas fa-comments"></i>
+                                <p>Select a police station from the sidebar to start a conversation</p>
+                            </div>
+                        </div>
+
+                        <div class="chat-input-container hidden" id="chat-input-container">
+                            <div class="chat-input">
+                                <input type="text" id="message-input" placeholder="Type your message...">
+                                <button class="btn btn--primary" id="send-message">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Safety News Tab -->
+            <div class="tab-content" id="safety-news-tab">
+                <div class="news-header">
+                    <h3>Safety News & Alerts</h3>
+                    <div class="news-filters">
+                        <select class="form-control" id="news-category-filter">
+                            <option value="all">All Categories</option>
+                            <option value="Security">Security</option>
+                            <option value="Weather">Weather</option>
+                            <option value="Health">Health</option>
+                            <option value="Travel">Travel</option>
+                        </select>
+                        <select class="form-control" id="news-severity-filter">
+                            <option value="all">All Severities</option>
+                            <option value="high">High Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="low">Low Priority</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="news-list" id="news-list">
+                    <!-- News items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Emergency Tab -->
+            <div class="tab-content" id="emergency-tab">
+                <div class="emergency-header">
+                    <h3>Emergency Services</h3>
+                    <p>Immediate help and emergency contacts</p>
+                </div>
+
+                <div class="emergency-actions">
+                    <button class="btn btn--primary btn--lg emergency-action" id="panic-btn">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>PANIC BUTTON</strong>
+                            <span>Send immediate help signal</span>
+                        </div>
+                    </button>
+
+                    <button class="btn btn--secondary btn--lg emergency-action" id="sos-btn">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <strong>SOS Call</strong>
+                            <span>Direct call to emergency services</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="emergency-info">
+                    <h4>Your Emergency Profile</h4>
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <i class="fas fa-tint"></i>
+                            <div>
+                                <strong>Blood Group</strong>
+                                <span id="emergency-blood-group">-</span>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-user-friends"></i>
+                            <div>
+                                <strong>Emergency Contact</strong>
+                                <span id="emergency-contact">-</span>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-pills"></i>
+                            <div>
+                                <strong>Medical Conditions</strong>
+                                <span id="emergency-medical">None reported</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authority Dashboard -->
+    <section id="authority-dashboard" class="dashboard hidden">
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="dashboard-nav">
+                    <h1>Authority Dashboard</h1>
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="user-details">
+                            <span class="user-name">Control Center</span>
+                            <span class="user-id">Station: Delhi Central</span>
+                        </div>
+                        <button class="btn btn--outline btn--sm" id="authority-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Authority Tabs -->
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="monitoring">
+                        <i class="fas fa-desktop"></i>
+                        Tourist Monitoring
+                    </button>
+                    <button class="tab-btn" data-tab="alerts">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Emergency Alerts
+                    </button>
+                    <button class="tab-btn" data-tab="device-monitoring">
+                        <i class="fas fa-mobile-alt"></i>
+                        Device Status
+                    </button>
+                    <button class="tab-btn" data-tab="chat-support">
+                        <i class="fas fa-headset"></i>
+                        Chat Support
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-content container">
+            <!-- Tourist Monitoring Tab -->
+            <div class="tab-content active" id="monitoring-tab">
+                <div class="monitoring-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <span class="stat-number">1,247</span>
+                            <span class="stat-label">Active Tourists</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <span class="stat-number">98.5%</span>
+                            <span class="stat-label">Safe Status</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Active Alerts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="monitoring-list">
+                    <h3>Recent Tourist Activity</h3>
+                    <div class="tourist-list" id="tourist-monitoring-list">
+                        <!-- Tourist monitoring data will be populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Alerts Tab -->
+            <div class="tab-content" id="alerts-tab">
+                <div class="alerts-header">
+                    <h3>Emergency Alerts & Response</h3>
+                    <div class="alert-stats">
+                        <span class="alert-stat high">2 High Priority</span>
+                        <span class="alert-stat medium">1 Medium Priority</span>
+                        <span class="alert-stat resolved">15 Resolved Today</span>
+                    </div>
+                </div>
+
+                <div class="alert-list" id="emergency-alert-list">
+                    <!-- Emergency alerts will be populated -->
+                </div>
+            </div>
+
+            <!-- Device Monitoring Tab -->
+            <div class="tab-content" id="device-monitoring-tab">
+                <div class="device-header">
+                    <h3>Tourist Device Status</h3>
+                    <p>Monitor battery levels, device information, and connectivity</p>
+                </div>
+
+                <div class="device-list" id="device-status-list">
+                    <!-- Device status will be populated -->
+                </div>
+            </div>
+
+            <!-- Chat Support Tab -->
+            <div class="tab-content" id="chat-support-tab">
+                <div class="chat-support-header">
+                    <h3>Active Chat Sessions</h3>
+                    <div class="chat-stats">
+                        <span class="chat-stat">5 Active Chats</span>
+                        <span class="chat-stat">Avg Response: 2.3 min</span>
+                    </div>
+                </div>
+
+                <div class="active-chats" id="active-chat-list">
+                    <!-- Active chats will be populated -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
